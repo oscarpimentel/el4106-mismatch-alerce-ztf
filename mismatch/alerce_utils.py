@@ -8,12 +8,6 @@ from dask import dataframe as dd
 
 ###################################################################################################################################################
 
-def df_to_float32(df):
-	for c in df.columns:
-		if df[c].dtype=='float64':
-			df[c] = df[c].astype(np.float32)
-	return df
-
 def isin_filter_df(df, index, objs,
 	inverse=False,
 	):
@@ -43,14 +37,12 @@ def process_df_detections(df, index_name, new_index_name):
 	assert df.index.name==index_name
 	df.index.rename(new_index_name, inplace=True) # rename index
 	df = df.reset_index()
-	df = df_to_float32(df)
 	df = drop_duplicates(df)
 	df = df.set_index([new_index_name])
 	objs = list(set(df.index))
 	return df, objs
 
 def process_df_labels(df, new_index_name, det_objs):
-	df = df_to_float32(df)
 	df = drop_duplicates(df)
 	df = df.set_index([new_index_name])
 	df = filter_by_valid_objs(df, det_objs) # clean labels dataframe
