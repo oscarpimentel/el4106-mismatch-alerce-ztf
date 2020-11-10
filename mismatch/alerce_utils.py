@@ -25,6 +25,9 @@ def get_train_test_split(df, labels_df, index):
 def filter_by_valid_objs(df, valid_objs):
 	return df[df.index.isin(valid_objs)]
 
+def keep_only_valid_objs(df, valid_objs):
+	return df[df.index.isin(valid_objs)]
+	
 def drop_duplicates(df,
 	npartitions=C_.N_DASK,
 	):
