@@ -1,10 +1,12 @@
 from __future__ import print_function
 from __future__ import division
-from . import C_
+from . import _C
 
 import numpy as np
 import pandas as pd
 from dask import dataframe as dd
+
+N_DASK = _C.N_DASK
 
 ###################################################################################################################################################
 
@@ -29,7 +31,7 @@ def keep_only_valid_objs(df, valid_objs):
 	return df[df.index.isin(valid_objs)]
 	
 def drop_duplicates(df,
-	npartitions=C_.N_DASK,
+	npartitions=N_DASK,
 	):
 	ddf = dd.from_pandas(df, npartitions=npartitions)
 	return ddf.drop_duplicates().compute() # FAST
